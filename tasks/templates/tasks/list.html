@@ -1,0 +1,73 @@
+{% extends 'tasks/base.html' %} {% block content %}
+
+<style>
+  
+
+  form {
+      margin-top: 30px;
+      display: flex;
+  }
+
+  form > input {
+      width:-webkit-fill-available;
+  }
+
+  #task {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* margin-left: 25%;
+        width: 50%; */
+
+    margin-top: 30px;
+    background-color: darkorchid;
+  }
+
+  #update-task {
+    padding: 8px;
+  }
+
+  #delete-task {
+    padding: 8px;
+  }
+
+  p {
+    color: white;
+    font-size: 25px;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  }
+</style>
+
+<div class="container">
+  <div class="add-todo">
+    <form method="POST" action="/">
+      {% csrf_token %} {{ form.title }}
+      <button class="btn btn-warning" type="submit" name="create-task">AddTask</button>
+    </form>
+  </div>
+  {% for task in tasks %}
+  <div class="container">
+    <div class="row" id="task">
+      <div class="col" id="task-title">
+        {% if task.complete == True %}
+        <strike><p>{{ task }}</p></strike>
+        {% else %}
+        <span><p>{{ task }}</p></span>
+        {% endif %}
+      </div>
+      <div class="col-md-auto" id="update-task">
+        <a class="btn btn-warning" href="{% url 'update_task' task.id %}"
+          >Update</a
+        >
+      </div>
+      <div class="col col-lg-2" id="delete-task">
+        <a class="btn btn-danger" href="{% url 'delete_task' task.id %}"
+          >Delete</a
+        >
+      </div>
+    </div>
+  </div>
+  <hr />
+  {% endfor %} {% endblock %}
+</div>
